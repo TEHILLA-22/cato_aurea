@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cato & Aurea's Birthday</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle, #ffe3ec, #ffeaf0);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #ffdee9;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .countdown {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ff2e63;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .main-content {
+      padding: 20px;
+      text-align: center;
+      animation: fadeIn 3s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .slider {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .slider img {
+      max-height: 300px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .music-player {
+      margin-top: 30px;
+    }
+
+    .fireworks {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      background: transparent;
+      z-index: 1;
+    }
+
+    .whatsapp-share {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      border-radius: 50%;
+      padding: 15px;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 2;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="countdown-container" id="countdownSection">
+    <h1>Countdown to Cato & Aurea's Birthday</h1>
+    <div class="countdown" id="countdown"></div>
+  </div>
+
+  <div class="main-content hidden" id="mainContent">
+    <h1>🎉 Happy Birthday Cato & Aurea! 🎉</h1>
+    <p>Two beautiful souls born in June! Cato (June 23rd) & Aurea (June 26th). Two years of friendship and still counting. This day is for YOU! 💖</p>
+    <div class="slider">
+      <img src="https://source.unsplash.com/500x300/?birthday,cake" alt="cake">
+      <img src="https://source.unsplash.com/500x300/?friends,happy" alt="friends">
+      <img src="https://source.unsplash.com/500x300/?celebration,party" alt="celebration">
+    </div>
+    <div class="music-player">
+      <audio controls autoplay loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+
+  <canvas class="fireworks" id="fireworks"></canvas>
+
+  <a href="https://wa.me/?text=🎉%20Celebrate%20Cato%20%26%20Aurea's%20Birthday!%20Join%20us%20at%20 https://tehilla-22.github.io/cato_aurea %20🎁" target="_blank" class="whatsapp-share">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <script>
+    const countdownEl = document.getElementById('countdown');
+    const mainContent = document.getElementById('mainContent');
+    const countdownSection = document.getElementById('countdownSection');
+    const birthdayDate = new Date('June 23, 2025 00:00:00').getTime();
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = birthdayDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+      if (distance < 0) {
+        clearInterval(interval);
+        countdownSection.classList.add('hidden');
+        mainContent.classList.remove('hidden');
+        startFireworks();
+      }
+    }, 1000);
+
+    // Basic Firework Simulation
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createFirework() {
+      let x = random(100, canvas.width - 100);
+      let y = random(100, canvas.height / 2);
+      for (let i = 0; i < 100; i++) {
+        particles.push({
+          x,
+          y,
+          radius: 2,
+          color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+          angle: Math.random() * Math.PI * 2,
+          speed: Math.random() * 5 + 2,
+          alpha: 1
+        });
+      }
+    }
+
+    function drawFireworks() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, index) => {
+        let dx = Math.cos(p.angle) * p.speed;
+        let dy = Math.sin(p.angle) * p.speed;
+        p.x += dx;
+        p.y += dy;
+        p.alpha -= 0.01;
+
+        if (p.alpha <= 0) particles.splice(index, 1);
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    function startFireworks() {
+      setInterval(createFirework, 800);
+      animateFireworks();
+    }
+
+    function animateFireworks() {
+      drawFireworks();
+      requestAnimationFrame(animateFireworks);
+    }
+  </script>
+</body>
+</html>
+
