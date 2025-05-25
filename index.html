@@ -6,12 +6,23 @@
   <title>Cato & Aurea's Birthday</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    :root {
+      --main-color: #ff2e63;
+      --bg-color: #ffeaf0;
+      --text-color: #333;
+      --accent: #ff7eb3;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: radial-gradient(circle, #ffe3ec, #ffeaf0);
-      color: #333;
+      background: linear-gradient(#ff7eb3, #ff2e63);
+      color: var(--text-color);
       overflow-x: hidden;
+    }
+
+    h1, h2, p {
+      margin: 0.5em auto;
     }
 
     .countdown-container {
@@ -19,30 +30,41 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: #ffdee9;
+      background: pink;
+
       flex-direction: column;
       text-align: center;
+      animation: pulseBg 10s infinite alternate;
+    }
+
+    @keyframes pulseBg {
+      0% { background-position: left; }
+      100% { background-position: right; }
     }
 
     .countdown {
-      font-size: 3rem;
+      font-size: 2.5rem;
       font-weight: bold;
-      color: #ff2e63;
+      color: var(--main-color);
+      animation: popIn 2s ease-in-out;
     }
 
-    .hidden {
-      display: none;
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
+
+    .hidden { display: none; }
 
     .main-content {
-      padding: 20px;
+      padding: 30px;
       text-align: center;
-      animation: fadeIn 3s ease forwards;
+      animation: fadeIn 2s ease forwards;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .slider {
@@ -50,16 +72,33 @@
       overflow-x: auto;
       gap: 20px;
       padding: 20px;
+      animation: slideUp 3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .slider img {
       max-height: 300px;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: transform 0.4s ease;
+    }
+
+    .slider img:hover {
+      transform: scale(1.05);
     }
 
     .music-player {
       margin-top: 30px;
+      animation: glow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px var(--accent); }
+      100% { box-shadow: 0 0 30px var(--main-color); }
     }
 
     .fireworks {
@@ -85,34 +124,43 @@
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       z-index: 2;
       text-decoration: none;
+      transition: transform 0.3s;
+    }
+
+    .whatsapp-share:hover {
+      transform: scale(1.2);
     }
   </style>
 </head>
 <body>
+    <audio src="Sapphire_-_Unity_Acoustic_.mp3" loop autoplay></audio>
   <div class="countdown-container" id="countdownSection">
-    <h1>Countdown to Cato & Aurea's Birthday</h1>
+    <h1>Countdown to Cato & Aurea's Birthdays 🎂</h1>
+    <h2>Cato - June 23rd | Aurea - June 26th</h2>
     <div class="countdown" id="countdown"></div>
   </div>
 
   <div class="main-content hidden" id="mainContent">
     <h1>🎉 Happy Birthday Cato & Aurea! 🎉</h1>
-    <p>Two beautiful souls born in June! Cato (June 23rd) & Aurea (June 26th). Two years of friendship and still counting. This day is for YOU! 💖</p>
+    <p>Two radiant stars born in June 🌟 Cato (June 23rd) & Aurea (June 26th). Two years of unforgettable friendship and countless more to come. 💞</p>
     <div class="slider">
       <img src="https://source.unsplash.com/500x300/?birthday,cake" alt="cake">
       <img src="https://source.unsplash.com/500x300/?friends,happy" alt="friends">
       <img src="https://source.unsplash.com/500x300/?celebration,party" alt="celebration">
+      <img src="https://source.unsplash.com/500x300/?gifts,joy" alt="gifts">
     </div>
     <div class="music-player">
       <audio controls autoplay loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+        <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_5479e2003b.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
       </audio>
+      <p>Now playing: "Birthday Vibes" 🎵</p>
     </div>
   </div>
 
   <canvas class="fireworks" id="fireworks"></canvas>
 
-  <a href="https://wa.me/?text=🎉%20Celebrate%20Cato%20%26%20Aurea's%20Birthday!%20Join%20us%20at%20 https://tehilla-22.github.io/cato_aurea %20🎁" target="_blank" class="whatsapp-share">
+  <a href="https://wa.me/?text=🎉%20Celebrate%20Cato%20%26%20Aurea's%20Birthday!%20Join%20us%20at%20[YOUR_WEBSITE_LINK]%20🎁" target="_blank" class="whatsapp-share">
     <i class="fab fa-whatsapp"></i>
   </a>
 
@@ -120,11 +168,16 @@
     const countdownEl = document.getElementById('countdown');
     const mainContent = document.getElementById('mainContent');
     const countdownSection = document.getElementById('countdownSection');
-    const birthdayDate = new Date('June 23, 2025 00:00:00').getTime();
+    const today = new Date();
+
+    const catoDate = new Date(today.getFullYear(), 5, 23);
+    const aureaDate = new Date(today.getFullYear(), 5, 26);
+    let birthdayDate = today > catoDate && today < aureaDate ? aureaDate : catoDate;
+    if (today > aureaDate) birthdayDate.setFullYear(today.getFullYear() + 1);
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
-      const distance = birthdayDate - now;
+      const distance = birthdayDate.getTime() - now;
 
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -141,12 +194,11 @@
       }
     }, 1000);
 
-    // Basic Firework Simulation
+    // Fireworks canvas
     const canvas = document.getElementById('fireworks');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
     let particles = [];
 
     function random(min, max) {
@@ -177,9 +229,7 @@
         p.x += dx;
         p.y += dy;
         p.alpha -= 0.01;
-
         if (p.alpha <= 0) particles.splice(index, 1);
-
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
@@ -190,7 +240,7 @@
     }
 
     function startFireworks() {
-      setInterval(createFirework, 800);
+      setInterval(createFirework, 1000);
       animateFireworks();
     }
 
@@ -201,4 +251,3 @@
   </script>
 </body>
 </html>
-
