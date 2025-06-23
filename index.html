@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cato & Aurea's Magical Birthday Celebration</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -13,6 +13,7 @@
             --accent: #ffe66d;
             --dark: #292f36;
             --light: #f7fff7;
+            --primary-gold: #FFD700;
         }
         
         * {
@@ -27,7 +28,13 @@
             color: var(--light);
             overflow-x: hidden;
             position: relative;
-           
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Performance Optimizations */
+        .will-change {
+            will-change: transform, opacity;
         }
 
         /* Animated Background */
@@ -56,7 +63,6 @@
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(180deg); }
         }
-
         
         .container {
             max-width: 1200px;
@@ -113,11 +119,11 @@
             min-width: 120px;
             backdrop-filter: blur(5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
+            transition: transform 0.3s ease-out;
         }
         
         .countdown-box:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.05);
         }
         
         .countdown-value {
@@ -141,14 +147,14 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            transition: width 0.5s;
+            transition: width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
         }
         
         /* Main Content (revealed after countdown) */
         #main-content {
             display: none;
             opacity: 0;
-            transition: opacity 1s;
+            transition: opacity 1s ease;
             position: relative;
             z-index: 2;
         }
@@ -180,6 +186,7 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .birthday-subtitle {
@@ -207,6 +214,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(5px);
         }
         
         .sweet-content {
@@ -218,7 +226,7 @@
             text-align: center;
             box-shadow: 0 10px 50px rgba(0,0,0,0.3);
             position: relative;
-            animation: modalFadeIn 0.5s;
+            animation: modalFadeIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 3px solid var(--accent);
         }
         
@@ -239,23 +247,23 @@
             line-height: 1.6;
             margin-bottom: 25px;
             color: #333;
-            color-mix(in xyz-d50, violet 40%, purple 60%);
         }
         
         .sweet-close {
-            background: #ff6b8b;
+            background: linear-gradient(to right, #ff6b8b, #ff4757);
             color: white;
             border: none;
             padding: 10px 25px;
             border-radius: 50px;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 139, 0.4);
         }
         
         .sweet-close:hover {
-            background: #ff4757;
             transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 107, 139, 0.6);
         }
 
         /* Photo Slider */
@@ -286,11 +294,6 @@
             object-fit: cover;
             display: flex;
         }
-        @media (max-width: 700px) {
-            .slide img {
-                object-fit: contain;
-            }
-        }
         
         .slide-caption {
             position: absolute;
@@ -302,6 +305,7 @@
             text-align: center;
             font-size: 1.2rem;
             color: white;
+            backdrop-filter: blur(5px);
         }
         
         .slider-nav {
@@ -322,11 +326,19 @@
             padding: 1rem;
             cursor: pointer;
             backdrop-filter: blur(5px);
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            margin: 0 1rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .slider-btn:hover {
             background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
         }
         
         .slider-dots {
@@ -342,11 +354,12 @@
             background: rgba(255, 255, 255, 0.5);
             margin: 0 5px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
         }
         
         .dot.active {
             background: var(--primary);
+            transform: scale(1.2);
         }
         
         /* Memory Timeline */
@@ -405,6 +418,7 @@
             border-radius: 50%;
             top: 15px;
             z-index: 1;
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.3);
         }
         
         .timeline-item:nth-child(odd)::after {
@@ -421,11 +435,12 @@
             border-radius: 10px;
             backdrop-filter: blur(5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
         }
         
         .timeline-content:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
         
         .timeline-date {
@@ -468,12 +483,13 @@
             min-width: 300px;
             backdrop-filter: blur(5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
         
         .wish-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.15);
         }
         
         .wish-card h3 {
@@ -511,17 +527,30 @@
         .social-link {
             color: var(--light);
             font-size: 1.5rem;
-            transition: transform 0.3s, color 0.3s;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
         }
         
         .social-link:hover {
             transform: translateY(-5px);
             color: var(--accent);
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .copyright {
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.5);
+        }
+
+        .king {
+            color: var(--accent);
+            font-weight: bold;
         }
         
         /* Fireworks */
@@ -563,136 +592,147 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             z-index: 100;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
         }
         
         .whatsapp-share:hover {
             transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
         }
         
         /* Music Player */
-       /* Update music player styles */
-.music-player {
-    position: fixed;
-    bottom: 30px;
-    left: 30px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 50px;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    z-index: 100;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
 
-.music-control {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: transform 0.3s;
-    padding: 5px;
-}
-
-.music-control:hover {
-    transform: scale(1.1);
-}
-
-.music-info {
-    font-size: 0.9rem;
-    min-width: 150px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Add these new styles to your CSS */
-/* Enhanced Fireworks */
-.firework {
-    position: absolute;
-    border-radius: 50%;
-    animation: explode 1s ease-out forwards;
-    opacity: 0;
-    pointer-events: none;
-}
-
-@keyframes explode {
-    0% {
-        transform: scale(0);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(20);
-        opacity: 0;
-    }
-}
-
-/* Floating Hearts Animation */
-@keyframes float {
-    0% {
-        transform: translateY(0) rotate(0deg);
-    }
-    100% {
-        transform: translateY(-100vh) rotate(360deg);
-    }
-}
-
-.floating-heart {
-    position: fixed;
-    font-size: 24px;
-    color: var(--primary);
-    animation: float 10s linear forwards;
-    pointer-events: none;
-    z-index: 1000;
-}
-
-/* Confetti Animation */
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background-color: var(--accent);
-    opacity: 0;
-    animation: confetti-fall 5s linear forwards;
-    pointer-events: none;
-    z-index: 1000;
-}
-
-@keyframes confetti-fall {
-    0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-/* Pulse Animation for Special Elements */
-@keyframes pulse-glow {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
-    }
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
-    }
-}
-
-.pulse-element {
-    animation: pulse-glow 2s infinite;
-}
-
- /* Floating particles */
+        .music-player:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .music-control {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .music-control:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .music-info {
+            font-size: 0.9rem;
+            min-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Enhanced Fireworks */
+        .firework {
+            position: absolute;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(20);
+                opacity: 0;
+            }
+        }
+        
+        /* Floating Hearts Animation */
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+        
+        .floating-heart {
+            position: fixed;
+            font-size: 24px;
+            color: var(--primary);
+            animation: float 10s linear forwards;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        /* Confetti Animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent);
+            opacity: 0;
+            animation: confetti-fall 5s linear forwards;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Pulse Animation for Special Elements */
+        @keyframes pulse-glow {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+            }
+        }
+        
+        .pulse-element {
+            animation: pulse-glow 2s infinite;
+        }
+        
+        /* Floating particles */
         .particles {
             position: fixed;
             top: 0;
@@ -702,7 +742,7 @@
             pointer-events: none;
             z-index: 1;
         }
-
+        
         .particle {
             position: absolute;
             width: 4px;
@@ -712,7 +752,7 @@
             opacity: 0.7;
             animation: float-particle 8s infinite linear;
         }
-
+        
         @keyframes float-particle {
             0% {
                 transform: translateY(100vh) rotate(0deg);
@@ -729,13 +769,327 @@
                 opacity: 0;
             }
         }
-
         
-        /* Responsive */
+        /* ================== */
+        /* NEW BIRTHDAY SECTIONS */
+        /* ================== */
+        
+        /* Birthday Quotes Section */
+        .quotes-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(255, 230, 109, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
+        }
+        
+        .quotes-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .quotes-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .quote-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            width: calc(50% - 1rem);
+            min-width: 300px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 5rem;
+            color: rgba(255, 255, 255, 0.1);
+            line-height: 1;
+        }
+        
+        .quote-card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .quote-text {
+            font-style: italic;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .quote-author {
+            font-weight: bold;
+            color: var(--accent);
+            text-align: right;
+        }
+        
+        /* Birthday Milestones Section */
+        .milestones-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 230, 109, 0.1) 100%);
+        }
+        
+        .milestones-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: var(--secondary);
+        }
+        
+        .milestones-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .milestone-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .milestone-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .milestone-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .milestone-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .milestone-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .milestone-label {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Birthday Memories Section */
+        .memories-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
+        }
+        
+        .memories-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .memories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .memory-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .memory-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 5;
+        }
+        
+        .memory-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .memory-item:hover .memory-image {
+            transform: scale(1.1);
+        }
+        
+        .memory-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .memory-item:hover .memory-caption {
+            transform: translateY(0);
+        }
+        
+        /* Guest Messages Styles */
+        .guest-messages {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(255, 230, 109, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
+        }
+        
+        .messages-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+        
+        .message-form {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .message-form input,
+        .message-form textarea {
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .message-form input:focus,
+        .message-form textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .message-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        #submit-message {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        #submit-message:hover {
+            background: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .messages-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .message-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .message-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .message-author {
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .message-text {
+            line-height: 1.6;
+        }
+        
+        .message-date {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+        
+        /* Fireworks Canvas */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
             .countdown-title {
                 font-size: 2.5rem;
-                margin-left: 30px;
             }
             
             .countdown-container {
@@ -756,6 +1110,10 @@
                 font-size: 3rem;
             }
             
+            .birthday-subtitle {
+                font-size: 1.5rem;
+            }
+            
             .timeline::before {
                 left: 31px;
             }
@@ -774,533 +1132,443 @@
                 left: 21px;
             }
             
-            .wish-card {
+            .wish-card,
+            .quote-card {
                 width: 100%;
             }
+            
+            .milestones-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .photo-slider {
+                height: 300px;
+            }
+            
+            .slider-container {
+                height: 300px;
+            }
+            
+            .music-player {
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .whatsapp-share {
+                bottom: 30px;
+                right: 50%;
+                transform: translateX(50%);
+            }
         }
-
-        .main-content {
-           
-            position: relative;
-            z-index: 10; /* Higher than fireworks */
-             /* Slightly transparent white */
-            border-radius: 15px;
-            margin: 20px;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         
+        @media (max-width: 480px) {
+            .countdown-title {
+                font-size: 2rem;
+            }
+            
+            .countdown-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .birthday-title {
+                font-size: 2.5rem;
+            }
+            
+            .birthday-text {
+                font-size: 1rem;
+            }
+            
+            .quotes-title,
+            .milestones-title,
+            .memories-title,
+            .timeline-title,
+            .wishes-title {
+                font-size: 2.5rem;
+            }
+            
+            .quote-card,
+            .wish-card,
+            .milestone-card {
+                padding: 1.5rem;
+            }
+            
+            .message-form {
+                padding: 0 1rem;
+            }
         }
-        /* Fireworks Canvas */
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            pointer-events: none;
+        
+        /* Performance Optimizations */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
     </style>
 </head>
 <body>
-           <canvas id="fireworks"></canvas>
-           <div class="bg-animation"></div>
-           <div class="particles"></div>
+    <canvas id="fireworks"></canvas>
+    <div class="bg-animation"></div>
+    <div class="particles" id="particles"></div>
 
-<div class="main-content">
- <!-- Sweet Modal -->
-    <div class="sweet-modal" id="sweet-modal">
-        <div class="sweet-content">
-            <h2 class="sweet-title">My Dearest Makky</h2>
-            <p class="sweet-message" id="modal-message">You're the most amazing person I've ever known!</p>
-            <button class="sweet-close" id="modal-close">Close</button>
-        </div>
-    </div>
-    <!-- Countdown Section -->
-    <section id="countdown-section">
-        <div class="loading-bar"></div>
-        <h1 class="countdown-title">Cato & Aurea's Birthday Countdown</h1>
-        <p class="countdown-subtitle">Our magical birthday celebration begins in...</p>
-        
-        <div class="countdown-container">
-            <div class="countdown-box">
-                <div class="countdown-value" id="days">00</div>
-                <div class="countdown-label">Days</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="hours">00</div>
-                <div class="countdown-label">Hours</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="minutes">00</div>
-                <div class="countdown-label">Minutes</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="seconds">00</div>
-                <div class="countdown-label">Seconds</div>
+    <div class="main-content">
+        <!-- Sweet Modal -->
+        <div class="sweet-modal" id="sweet-modal">
+            <div class="sweet-content">
+                <h2 class="sweet-title">My Dearest Makky</h2>
+                <p class="sweet-message" id="modal-message">You're the most amazing person I've ever known!</p>
+                <button class="sweet-close" id="modal-close">Close</button>
             </div>
         </div>
-
         
-        <p class="countdown-subtitle">Two amazing souls born just days apart, celebrating life together since 2022</p>
-    </section>
-    
-    <!-- Main Content (revealed after countdown) -->
-    <div id="main-content">
-        <!-- Birthday Header -->
-        <section class="birthday-header">
-            <div class="container">
-                <h1 class="birthday-title">Happy Birthday Cato & Aurea!</h1>
-                <h2 class="birthday-subtitle">June 23 & June 26 - A Celebration of Twin Flames</h2>
-                <p class="birthday-text">
-                    Two incredible souls born under the same summer sky, connected by an unbreakable bond. 
-                    This website is a tribute to our beautiful friendship that has blossomed over the past two years. 
-                    May this birthday mark the beginning of another amazing year filled with love, laughter, and unforgettable memories!
-                </p>
-            </div>
-        </section>
-        
-        <!-- Photo Slider -->
-        <section class="container">
-            <h2 class="timeline-title">Our Journey Together</h2>
-            <div class="photo-slider">
-                <div class="slider-container" id="slider">
-                    <div class="slide">
-                        <img src="./images/aurea.jpg" alt="Friends laughing">
-                        <img src="./images/tehilla 8.jpg" alt="">
-                        <div class="slide-caption">The day we first met online - 2022</div>
-                    </div> <!--corazon-->
-                    <div class="slide">
-                        <img src="./images/aurea2.jpg" alt="Celebration">
-                       
-                        <div class="slide-caption">Celebrating our first birthday together - 2022</div>
-                    </div>
-                    <div class="slide">
-                        <img src="./images/tehilla 3.jpg" alt="">
-                        <div class="slide-caption">For the years we've been together - 2023</div>
-                    </div>
-                    <div class="slide">
-                         <img src="./images/tehilla 8.jpg" alt="">
-                        <div class="slide-caption">Festivity of Memories</div>
-                    </div>
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Concert">
-                        <div class="slide-caption">A Friend Like no other</div>
-                    </div>
-
-                    <div class="slide">
-                        <img src="./bro pic 3.jpg" alt="Concert">
-                        <div class="slide-caption">Much love from Cato And Corazon</div>
-                    </div>
-                </div>
-                
-                <div class="slider-nav">
-                    <button class="slider-btn" id="prev-btn"><i class="fas fa-chevron-left"></i></button>
-                    <button class="slider-btn" id="next-btn"><i class="fas fa-chevron-right"></i></button>
-                </div>
-                
-                <div class="slider-dots" id="dots-container">
-                    <!-- Dots will be added by JavaScript -->
-                </div>
-            </div>
-        </section>
-        
-        <!-- Memory Timeline -->
-        <section class="timeline-section">
-            <div class="container">
-                <h2 class="timeline-title">Our Timeline</h2>
-                
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-date">June 2022</div>
-                            <div class="timeline-text">Cato and Aurea meet for the first time at a mutual friend's Platform. Instant connection!</div>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-date">July 2022</div>
-                            <div class="timeline-text">First birthday celebration together - discovering our birthdays are just days apart!</div>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-date">December 2022</div>
-                            <div class="timeline-text">Our first holiday season together - exchanging heartfelt gifts and making gingerbread houses.</div>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-date">August 2024</div>
-                            <div class="timeline-text">Communication Loss - Reconnected January 2025 with a Stronger and unbreakable bond.</div>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-date">Present Day</div>
-                            <div class="timeline-text">Celebrating three years of friendship and many more to come!</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Birthday Wishes -->
-        <section class="wishes-section">
-            <div class="container">
-                <h2 class="wishes-title">Birthday Wishes</h2>
-                
-                <div class="wishes-container">
-                    <div class="wish-card">
-                        <h3>For Cato</h3>
-                        <p>
-                            May your year be filled with creativity, joy, and all the colors of happiness. 
-                            Your vibrant spirit lights up every room, and I'm so grateful to have you in my life. 
-                            Here's to another year of amazing adventures together! <br> --
-                            <span>Emmanuella Newton</span>
-                        </p>
-                    </div>
-                    <div class="wish-card">
-                        <h3>For Aurea</h3>
-                        <p>
-                            Your kindness and wisdom inspire everyone around you. 
-                            May this year bring you all the love and success you deserve. 
-                            Thank you for being my rock and my partner in crime. Happy birthday, beautiful soul! <br>
-                            <span>---Tehilla Odjoji</span>
-                        </p>
-                    </div>
-                    <div class="wish-card">
-                        <h3>For Our Friendship</h3>
-                        <p>
-                            Two years of laughter, tears, inside jokes, and unconditional support. 
-                            What we have is rare and precious. May our bond continue to grow stronger with each passing year. 
-                            Cheers to us!
-                        </p>
-                    </div>
-                    <div class="wish-card">
-                        <h3>For the Future</h3>
-                        <p>
-                            May the coming year bring us new experiences, personal growth, 
-                            and countless moments of happiness together. Here's to making more memories that we'll cherish forever!
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="modal">
-            <p onload="showSweetMessage"></p>
-        </div>
-
-        <!-- Add this section before the footer -->
-<section class="guest-messages">
-    <div class="container">
-        <h2 class="messages-title">Leave Your Birthday Wishes</h2>
-        <div class="message-form">
-            <input type="text" id="message-name" placeholder="Your Name" required>
-            <textarea id="message-text" placeholder="Your Birthday Message" required></textarea>
-            <button id="submit-message">Send Wish</button>
-        </div>
-        <div class="messages-container" id="messages-container">
-            <!-- Messages will be loaded here -->
-        </div>
-    </div>
-</section>
-
-<style>
-    /* Guest Messages Styles */
-    .guest-messages {
-        padding: 5rem 0;
-        background: linear-gradient(135deg, rgba(255, 230, 109, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
-    }
-    
-    .messages-title {
-        font-family: 'Dancing Script', cursive;
-        font-size: 3rem;
-        margin-bottom: 2rem;
-        color: var(--primary);
-    }
-    
-    .message-form {
-        max-width: 600px;
-        margin: 0 auto 3rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .message-form input,
-    .message-form textarea {
-        padding: 1rem;
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-        font-family: 'Montserrat', sans-serif;
-        backdrop-filter: blur(5px);
-    }
-    
-    .message-form textarea {
-        min-height: 120px;
-        resize: vertical;
-    }
-    
-    #submit-message {
-        background: var(--primary);
-        color: white;
-        border: none;
-        padding: 1rem;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: transform 0.3s, background 0.3s;
-    }
-    
-    #submit-message:hover {
-        background: #ff5252;
-        transform: translateY(-3px);
-    }
-    
-    .messages-container {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    
-    .message-card {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 1.5rem;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s;
-    }
-    
-    .message-card:hover {
-        transform: translateY(-5px);
-    }
-    
-    .message-author {
-        font-weight: bold;
-        color: var(--accent);
-        margin-bottom: 0.5rem;
-    }
-    
-    .message-text {
-        line-height: 1.6;
-    }
-    
-    .message-date {
-        font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.6);
-        margin-top: 0.5rem;
-        text-align: right;
-    }
-</style>
-
-<script>
-    // Guest Messages System
-    document.addEventListener('DOMContentLoaded', () => {
-        const messageForm = document.querySelector('.message-form');
-        const nameInput = document.getElementById('message-name');
-        const textInput = document.getElementById('message-text');
-        const messagesContainer = document.getElementById('messages-container');
-        
-        // Load messages from local storage
-        loadMessages();
-        
-        // Form submission
-        messageForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+        <!-- Countdown Section -->
+        <section id="countdown-section">
+            <div class="loading-bar"></div>
+            <h1 class="countdown-title">Cato & Aurea's Birthday Countdown</h1>
+            <p class="countdown-subtitle">Our magical birthday celebration begins in...</p>
             
-            const name = nameInput.value.trim();
-            const text = textInput.value.trim();
-            
-            if (name && text) {
-                addMessage(name, text);
-                nameInput.value = '';
-                textInput.value = '';
-            }
-        });
-    });
-    
-
- // Create floating particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
-        
-
-
-    function addMessage(name, text) {
-        const messages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
-        const newMessage = {
-            id: Date.now(),
-            name,
-            text,
-            date: new Date().toLocaleString()
-        };
-        
-        messages.unshift(newMessage); // Add new message to beginning
-        localStorage.setItem('birthdayMessages', JSON.stringify(messages));
-        
-        displayMessages([newMessage], true);
-    }
-    
-    function loadMessages() {
-        const messages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
-        displayMessages(messages);
-    }
-    
-    function displayMessages(messages, prepend = false) {
-        const container = document.getElementById('messages-container');
-        
-        if (prepend) {
-            const fragment = document.createDocumentFragment();
-            messages.forEach(message => {
-                fragment.appendChild(createMessageCard(message));
-            });
-            container.insertBefore(fragment, container.firstChild);
-        } else {
-            container.innerHTML = '';
-            messages.forEach(message => {
-                container.appendChild(createMessageCard(message));
-            });
-        }
-    }
-    
-    function createMessageCard(message) {
-        const card = document.createElement('div');
-        card.className = 'message-card';
-        card.innerHTML = `
-            <div class="message-author">${message.name}</div>
-            <div class="message-text">${message.text}</div>
-            <div class="message-date">${message.date}</div>
-        `;
-        return card;
-    }
-</script>
-        
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container">
-                <p class="footer-text">Made with love for Cato & Aurea's special birthday celebration</p>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+            <div class="countdown-container">
+                <div class="countdown-box">
+                    <div class="countdown-value" id="days">00</div>
+                    <div class="countdown-label">Days</div>
                 </div>
-                <p class="copyright">© 2025 Cato & Aurea's Birthday | All Rights Reserved</p>
-                <p class="copyright">Powered by <span class="king">King Of Programming Tehilla</span></p>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
             </div>
-        </footer>
-    </div>
-    
-    <!-- WhatsApp Share Button -->
-    <div class="whatsapp-share" id="whatsapp-share">
-        <i class="fab fa-whatsapp"></i>
-    </div>
-    
-    
-    
-   <!-- Update the music player section in your HTML -->
-<div class="music-player">
-  <button class="music-control" id="play-btn"><i class="fas fa-play"></i></button>
-  <button class="music-control" id="pause-btn" style="display: none;"><i class="fas fa-pause"></i></button>
-  <span class="music-info" id="song-info">Press play to start music</span>
- 
-</div>
+            
+            <p class="countdown-subtitle">Two amazing souls born just days apart, celebrating life together since 2022</p>
+        </section>
+        
+        <!-- Main Content (revealed after countdown) -->
+        <div id="main-content">
+            <!-- Birthday Header -->
+            <section class="birthday-header">
+                <div class="container">
+                    <h1 class="birthday-title">Happy Birthday Cato & Aurea!</h1>
+                    <h2 class="birthday-subtitle">June 23 & June 26 - A Celebration of Twin Flames</h2>
+                    <p class="birthday-text">
+                        Two incredible souls born under the same summer sky, connected by an unbreakable bond. 
+                        This website is a tribute to our beautiful friendship that has blossomed over the past two years. 
+                        May this birthday mark the beginning of another amazing year filled with love, laughter, and unforgettable memories!
+                    </p>
+                </div>
+            </section>
+            
+            <!-- Photo Slider -->
+            <section class="container">
+                <h2 class="timeline-title">Our Journey Together</h2>
+                <div class="photo-slider">
+                    <div class="slider-container" id="slider">
+                        <div class="slide">
+                            <img src="./images/aurea.jpg" alt="Friends laughing">
+                            <img src="./images/tehilla 8.jpg" alt="">
+                            <div class="slide-caption">The day we first met online - 2022</div>
+                        </div> <!--corazon-->
+                        <div class="slide">
+                            <img src="./images/aurea2.jpg" alt="Celebration">
+                           
+                            <div class="slide-caption">Celebrating our first birthday together - 2022</div>
+                        </div>
+                        <div class="slide">
+                            <img src="./images/tehilla 3.jpg" alt="">
+                            <div class="slide-caption">For the years we've been together - 2023</div>
+                        </div>
+                        <div class="slide">
+                             <img src="./images/tehilla 8.jpg" alt="">
+                            <div class="slide-caption">Festivity of Memories</div>
+                        </div>
+                        <div class="slide">
+                            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Concert">
+                            <div class="slide-caption">A Friend Like no other</div>
+                        </div>
 
-<!-- Audio Element -->
-<audio id="birthday-music"></audio>
+                        <div class="slide">
+                            <img src="./bro pic 3.jpg" alt="Concert">
+                            <div class="slide-caption">Much love from Cato And Corazon</div>
+                        </div>
+                    </div>
+                    
+                    <div class="slider-nav">
+                        <button class="slider-btn" id="prev-btn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn" id="next-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    
+                    <div class="slider-dots" id="dots-container">
+                        <!-- Dots will be added by JavaScript -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Memory Timeline -->
+            <section class="timeline-section">
+                <div class="container">
+                    <h2 class="timeline-title">Our Timeline</h2>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">June 2022</div>
+                                <div class="timeline-text">Cato and Aurea meet for the first time at a mutual friend's Platform. Instant connection!</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">July 2022</div>
+                                <div class="timeline-text">First birthday celebration together - discovering our birthdays are just days apart!</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">December 2022</div>
+                                <div class="timeline-text">Our first holiday season together - exchanging heartfelt gifts and making memories.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">August 2024</div>
+                                <div class="timeline-text">Communication Loss - Reconnected January 2025 with a Stronger and unbreakable bond.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">Present Day</div>
+                                <div class="timeline-text">Celebrating three years of friendship and many more to come!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Birthday Wishes -->
+            <section class="wishes-section">
+                <div class="container">
+                    <h2 class="wishes-title">Birthday Wishes</h2>
+                    
+                    <div class="wishes-container">
+                        <div class="wish-card">
+                            <h3>For Cato</h3>
+                            <p>
+                                May your year be filled with creativity, joy, and all the colors of happiness. 
+                                Your vibrant spirit lights up every room, and I'm so grateful to have you in my life. 
+                                Here's to another year of amazing adventures together! <br> --
+                                <span>Emmanuella Newton</span>
+                            </p>
+                        </div>
+                        <div class="wish-card">
+                            <h3>For Aurea</h3>
+                            <p>
+                                Your kindness and wisdom inspire everyone around you. 
+                                May this year bring you all the love and success you deserve. 
+                                Thank you for being my rock and my partner in crime. Happy birthday, beautiful soul! <br>
+                                <span>---Tehilla Odjoji</span>
+                            </p>
+                        </div>
+                        <div class="wish-card">
+                            <h3>For Our Friendship</h3>
+                            <p>
+                                Two years of laughter, tears, inside jokes, and unconditional support. 
+                                What we have is rare and precious. May our bond continue to grow stronger with each passing year. 
+                                Cheers to us!
+                            </p>
+                        </div>
+                        <div class="wish-card">
+                            <h3>For the Future</h3>
+                            <p>
+                                May the coming year bring us new experiences, personal growth, 
+                                and countless moments of happiness together. Here's to making more memories that we'll cherish forever!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- NEW: Birthday Quotes Section -->
+            <section class="quotes-section">
+                <div class="container">
+                    <h2 class="quotes-title">Birthday Wisdom</h2>
+                    <div class="quotes-container">
+                        <div class="quote-card">
+                            <p class="quote-text">A true friend is the greatest of all blessings, and that which we take the least care of all to acquire.</p>
+                            <p class="quote-author">- François de La Rochefoucauld</p>
+                        </div>
+                        <div class="quote-card">
+                            <p class="quote-text">Friendship is born at that moment when one person says to another: 'What! You too? I thought I was the only one.'</p>
+                            <p class="quote-author">- C.S. Lewis</p>
+                        </div>
+                        <div class="quote-card">
+                            <p class="quote-text">The most beautiful discovery true friends make is that they can grow separately without growing apart.</p>
+                            <p class="quote-author">- Elisabeth Foley</p>
+                        </div>
+                        <div class="quote-card">
+                            <p class="quote-text">A twin flame isn't about romance. It's about recognizing yourself in another and helping each other grow.</p>
+                            <p class="quote-author">- Tehillz</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- NEW: Birthday Milestones Section -->
+            <section class="milestones-section">
+                <div class="container">
+                    <h2 class="milestones-title">Our Milestones</h2>
+                    <div class="milestones-container">
+                        <div class="milestone-card">
+                            <div class="milestone-icon"><i class="fas fa-heart"></i></div>
+                            <div class="milestone-number">3</div>
+                            <div class="milestone-label">Years of Friendship</div>
+                        </div>
+                        <div class="milestone-card">
+                            <div class="milestone-icon"><i class="fas fa-birthday-cake"></i></div>
+                            <div class="milestone-number">2</div>
+                            <div class="milestone-label">Birthdays Celebrated</div>
+                        </div>
+                        <div class="milestone-card">
+                            <div class="milestone-icon"><i class="fas fa-laugh-beam"></i></div>
+                            <div class="milestone-number">∞</div>
+                            <div class="milestone-label">Laughs Shared</div>
+                        </div>
+                        <div class="milestone-card">
+                            <div class="milestone-icon"><i class="fas fa-memory"></i></div>
+                            <div class="milestone-number">1000+</div>
+                            <div class="milestone-label">Memories Created</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- NEW: Birthday Memories Section -->
+            <section class="memories-section">
+                <div class="container">
+                    <h2 class="memories-title">Precious Moments</h2>
+                    <div class="memories-grid">
+                        <div class="memory-item">
+                            <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Memory 1" class="memory-image">
+                            <div class="memory-caption">Our First Meeting</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Memory 2" class="memory-image">
+                            <div class="memory-caption">Birthday Celebration</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Memory 3" class="memory-image">
+                            <div class="memory-caption">Concert Night</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Memory 4" class="memory-image">
+                            <div class="memory-caption">Beach Day</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Memory 5" class="memory-image">
+                            <div class="memory-caption">Movie Marathon</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Memory 6" class="memory-image">
+                            <div class="memory-caption">Road Trip</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Guest Messages -->
+            <section class="guest-messages">
+                <div class="container">
+                    <h2 class="messages-title">Leave Your Birthday Wishes</h2>
+                    <form class="message-form">
+                        <input type="text" id="message-name" placeholder="Your Name" required>
+                        <textarea id="message-text" placeholder="Your Birthday Message" required></textarea>
+                        <button type="submit" id="submit-message">Send Wish</button>
+                    </form>
+                    <div class="messages-container" id="messages-container">
+                        <!-- Messages will be loaded here -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <p class="footer-text">Made with love for Cato & Aurea's special birthday celebration</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                    <p class="copyright">© 2025 Cato & Aurea's Birthday | All Rights Reserved</p>
+                    <p class="copyright">Powered by <span class="king">King Of Programming Tehilla</span></p>
+                </div>
+            </footer>
+        </div>
+        
+        <!-- WhatsApp Share Button -->
+        <div class="whatsapp-share" id="whatsapp-share">
+            <i class="fab fa-whatsapp"></i>
+        </div>
+        
+        <!-- Music Player -->
+        <div class="music-player">
+            <button class="music-control" id="play-btn"><i class="fas fa-play"></i></button>
+            <button class="music-control" id="pause-btn" style="display: none;"><i class="fas fa-pause"></i></button>
+            <span class="music-info" id="song-info">Press play to start music</span>
+        </div>
+        
+        <!-- Audio Element -->
+        <audio id="birthday-music"></audio>
+    </div>
 
-<script>
-  // Music Player Functionality
-  const audio = document.getElementById('birthday-music');
-  const playBtn = document.getElementById('play-btn');
-  const pauseBtn = document.getElementById('pause-btn');
-  const nextBtn = document.getElementById('next-btn');
-  const songInfo = document.getElementById('song-info');
-  
-  // Playlist - Add your own song URLs here
-  const playlist = [
-      {
-          title: "Happy Birthday",
-          url: "Sapphire_-_Unity_Acoustic_.mp3"
-      },
-      {
-          title: "Celebration Time",
-          url: "Rose_Ft_Bruno_Mars_-_APT.mp3"
-      },
-      {
-          title: "Friendship Anthem",
-          url: "Alan_Walker_ft_Ava_Max_-_Alone_Pt_II.mp3"
-      }
-  ];
-  
-  let currentSongIndex = 0;
-  let isPlaying = false;
-  
-  // Load a song from the playlist
-  function loadSong(index) {
-      currentSongIndex = index;
-      const song = playlist[currentSongIndex];
-      audio.src = song.url;
-      songInfo.textContent = ` ${song.title}`;
-      
-      if (isPlaying) {
-          audio.play().catch(e => console.log("Auto-play prevented:", e));
-      }
-  }
-  
-  // Play next song in playlist
-  function nextSong() {
-      currentSongIndex = (currentSongIndex + 1) % playlist.length;
-      loadSong(currentSongIndex);
-  }
-  
-  // Event listeners
-  playBtn.addEventListener('click', () => {
-      isPlaying = true;
-      audio.play();
-      playBtn.style.display = 'none';
-      pauseBtn.style.display = 'block';
-      
-      // Load first song if none is loaded
-      if (!audio.src) {
-          loadSong(0);
-      }
-  });
-  
-  pauseBtn.addEventListener('click', () => {
-      isPlaying = false;
-      audio.pause();
-      pauseBtn.style.display = 'none';
-      playBtn.style.display = 'block';
-  });
-  
-  nextBtn.addEventListener('click', nextSong);
-  
-  // When song ends, play next one automatically
-  audio.addEventListener('ended', nextSong);
-  
-  // Load first song when page loads (but don't autoplay)
-  loadSong(0);
-</script>
-    
     <script>
+        // Performance optimizations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create floating particles
+            function createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = 50;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 8 + 's';
+                    particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            createParticles();
+
+            // Load images lazily
+            const lazyImages = document.querySelectorAll('.memory-image');
+            const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const lazyImage = entry.target;
+                        lazyImage.src = lazyImage.dataset.src || lazyImage.src;
+                        lazyImageObserver.unobserve(lazyImage);
+                    }
+                });
+            });
+
+            lazyImages.forEach(lazyImage => {
+                lazyImageObserver.observe(lazyImage);
+            });
+        });
+
         // Countdown Timer
         function updateCountdown() {
             // Set the target date to June 23rd of the current year
@@ -1332,12 +1600,7 @@
             
             // If countdown is over, reveal main content
             if (timeLeft <= 0) {
-                document.getElementById('countdown-section').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                setTimeout(() => {
-                    document.getElementById('main-content').style.opacity = '1';
-                    startFireworks();
-                }, 100);
+                showMainContent();
             }
         }
         
@@ -1381,236 +1644,22 @@
         });
         
         // Auto-advance slides
-        setInterval(() => {
+        let slideInterval = setInterval(() => {
             currentSlide = (currentSlide + 1) % slides.length;
             goToSlide(currentSlide);
         }, 5000);
         
-        // Fireworks
-        function startFireworks() {
-            setInterval(() => {
-                createFirework();
-            }, 300);
-        }
-        
-        function createFirework() {
-            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#ffa5a5', '#84dcc6'];
-            const firework = document.createElement('div');
-            firework.classList.add('firework');
-            
-            // Random position
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * window.innerHeight;
-            
-            // Random color
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            
-            firework.style.left = `${x}px`;
-            firework.style.top = `${y}px`;
-            firework.style.boxShadow = `0 0 10px 5px ${color}`;
-            
-            document.body.appendChild(firework);
-            
-            // Remove after animation
-            setTimeout(() => {
-                firework.remove();
-            }, 1000);
-        }
-        
-        // WhatsApp Share
-        document.getElementById('whatsapp-share').addEventListener('click', () => {
-            const url = window.location.href;
-            const text = "Celebrate Cato & Aurea's Birthday! Join us at";
-            window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
-        });
-        
-        // Music Player
-        // const audio = document.getElementById('birthday-music');
-        // const playBtn = document.getElementById('play-btn');
-        // const pauseBtn = document.getElementById('pause-btn');
-        
-        // playBtn.addEventListener('click', () => {
-        //     audio.play();
-        //     playBtn.style.display = 'none';
-        //     pauseBtn.style.display = 'block';
-        // });
-        
-        // pauseBtn.addEventListener('click', () => {
-        //     audio.pause();
-        //     pauseBtn.style.display = 'none';
-        //     playBtn.style.display = 'block';
-        // });
-        
-        // Check if countdown is already over on page load
-        const now = new Date();
-        const targetDate = new Date(now.getFullYear(), 5, 23); // June 23rd
-        if (now > targetDate) {
-            document.getElementById('countdown-section').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            document.getElementById('main-content').style.opacity = '1';
-            startFireworks();
-        }
-
-        // Enhanced Fireworks Function
-function startFireworks() {
-    // Create more frequent and colorful fireworks
-    const fireworkInterval = setInterval(() => {
-        createFirework();
-    }, 200); // More frequent fireworks
-
-    // Create special burst fireworks every 3 seconds
-    setInterval(() => {
-        createBurstFirework();
-    }, 3000);
-}
-
-
-function createFirework() {
-    const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#ffa5a5', '#84dcc6', '#ff9ff3', '#feca57', '#5f27cd', '#6ac200', 'pink'];
-    const firework = document.createElement('div');
-    firework.classList.add('firework');
-    
-    // Random position
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
-    
-    // Random color and size
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const size = Math.random() * 8 + 3;
-    
-    firework.style.left = `${x}px`;
-    firework.style.top = `${y}px`;
-    firework.style.width = `${size}px`;
-    firework.style.height = `${size}px`;
-    firework.style.boxShadow = `0 0 ${size*2}px ${size/2}px ${color}`;
-    
-    document.body.appendChild(firework);
-    
-    // Remove after animation
-    setTimeout(() => {
-        firework.remove();
-    }, 1000);
-}
-
-function createBurstFirework() {
-    const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#ffa5a5', '#84dcc6'];
-    const burstCount = 20 + Math.floor(Math.random() * 30);
-    const centerX = Math.random() * window.innerWidth;
-    const centerY = Math.random() * window.innerHeight;
-    
-    for (let i = 0; i < burstCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('firework');
-        
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 50 + Math.random() * 100;
-        const x = centerX + Math.cos(angle) * distance;
-        const y = centerY + Math.sin(angle) * distance;
-        
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const size = Math.random() * 6 + 2;
-        
-        particle.style.left = `${x}px`;
-        particle.style.top = `${y}px`;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.boxShadow = `0 0 ${size*2}px ${size/2}px ${color}`;
-        
-        document.body.appendChild(particle);
-        
-        setTimeout(() => {
-            particle.remove();
-        }, 1000);
-    }
-}
-
-// Add this to your existing script
-// Floating hearts effect
-function createFloatingHearts() {
-    setInterval(() => {
-        const heart = document.createElement('div');
-        heart.innerHTML = '❤️';
-        heart.classList.add('floating-heart');
-        
-        // Random position at bottom of screen
-        heart.style.left = `${Math.random() * window.innerWidth}px`;
-        heart.style.bottom = '-50px';
-        
-        // Random size
-        heart.style.fontSize = `${Math.random() * 20 + 10}px`;
-        
-        // Random animation duration
-        heart.style.animationDuration = `${Math.random() * 5 + 5}s`;
-        
-        document.body.appendChild(heart);
-        
-        // Remove after animation
-        setTimeout(() => {
-            heart.remove();
-        }, 10000);
-    }, 500);
-}
-
-// Confetti effect
-function createConfetti() {
-    setInterval(() => {
-        for (let i = 0; i < 20; i++) {
-            const confetti = document.createElement('div');
-            confetti.classList.add('confetti');
-            
-            // Random position at top of screen
-            confetti.style.left = `${Math.random() * window.innerWidth}px`;
-            confetti.style.top = '-10px';
-            
-            // Random color
-            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#ffa5a5', '#84dcc6'];
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            
-            // Random size and shape
-            confetti.style.width = `${Math.random() * 10 + 5}px`;
-            confetti.style.height = `${Math.random() * 10 + 5}px`;
-            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-            
-            // Random animation duration
-            confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
-            
-            document.body.appendChild(confetti);
-            
-            // Remove after animation
-            setTimeout(() => {
-                confetti.remove();
+        // Pause auto-advance on hover
+        const photoSlider = document.querySelector('.photo-slider');
+        photoSlider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+        photoSlider.addEventListener('mouseleave', () => {
+            slideInterval = setInterval(() => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                goToSlide(currentSlide);
             }, 5000);
-        }
-    }, 3000);
-}
-
-// Initialize all effects when main content is shown
-function showMainContent() {
-    document.getElementById('countdown-section').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
-    setTimeout(() => {
-        document.getElementById('main-content').style.opacity = '1';
-        startFireworks();
-        createFloatingHearts();
-        createConfetti();
-        
-        // Add pulse effect to important elements
-        document.querySelectorAll('.birthday-title, .wish-card, .timeline-title').forEach(el => {
-            el.classList.add('pulse-element');
         });
-    }, 100);
-}
-
-// Update your countdown check to use the new function
-if (now > targetDate) {
-    showMainContent();
-}
-
-
-
-
-
- // Fireworks
+        
+        // Fireworks Canvas
         const canvas = document.getElementById('fireworks');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -1721,21 +1770,178 @@ if (now > targetDate) {
             fireworks.forEach(firework => firework.update());
         }
         
-        animate();
+        // Start animation only when needed
+        let isAnimating = false;
+        function startFireworksAnimation() {
+            if (!isAnimating) {
+                isAnimating = true;
+                animate();
+            }
+        }
         
         // Handle window resize
         window.addEventListener('resize', function() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
+        
+        // WhatsApp Share
+        document.getElementById('whatsapp-share').addEventListener('click', () => {
+            const url = window.location.href;
+            const text = "Celebrate Cato & Aurea's Birthday! Join us at";
+            window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
+        });
+        
+        // Music Player
+        const audio = document.getElementById('birthday-music');
+        const playBtn = document.getElementById('play-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const songInfo = document.getElementById('song-info');
+        
+        // Playlist - Add your own song URLs here
+        const playlist = [
+            {
+                title: "Happy Birthday",
+                url: "Sapphire_-_Unity_Acoustic_.mp3"
+            },
+           
+            {
+                title: "Friendship Anthem",
+                url: "Alan-Walker-Alone-(RawPraise.ng).mp3"
+            },
 
-
- // Initial sweet message
-        setTimeout(() => {
-            showSweetMessage('Welcome Aurea!', 'This special website was created for US to celebrate your amazing day! Enjoy every moment of it, just like I enjoy every spending moment with you.');
-        }, 1000);
-
-         // Sweet Modal functionality
+             {
+                title: "Birthday moods",
+                url: "Alan_Walker_ft_Ava_Max_-_Alone_Pt_II.mp3"
+            },
+            
+             {
+                title: "Celebration Time",
+                url: "Rose_Ft_Bruno_Mars_-_APT.mp3"
+            }
+        ];
+        
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        
+        // Load a song from the playlist
+        function loadSong(index) {
+            currentSongIndex = index;
+            const song = playlist[currentSongIndex];
+            audio.src = song.url;
+            songInfo.textContent = `Now Playing: ${song.title}`;
+            
+            if (isPlaying) {
+                audio.play().catch(e => console.log("Auto-play prevented:", e));
+            }
+        }
+        
+        // Play next song in playlist
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            loadSong(currentSongIndex);
+        }
+        
+        // Event listeners
+        playBtn.addEventListener('click', () => {
+            isPlaying = true;
+            audio.play();
+            playBtn.style.display = 'none';
+            pauseBtn.style.display = 'block';
+            
+            // Load first song if none is loaded
+            if (!audio.src) {
+                loadSong(0);
+            }
+        });
+        
+        pauseBtn.addEventListener('click', () => {
+            isPlaying = false;
+            audio.pause();
+            pauseBtn.style.display = 'none';
+            playBtn.style.display = 'block';
+        });
+        
+        // When song ends, play next one automatically
+        audio.addEventListener('ended', nextSong);
+        
+        // Load first song when page loads (but don't autoplay)
+        loadSong(0);
+        
+        // Guest Messages System
+        document.addEventListener('DOMContentLoaded', () => {
+            const messageForm = document.querySelector('.message-form');
+            const nameInput = document.getElementById('message-name');
+            const textInput = document.getElementById('message-text');
+            const messagesContainer = document.getElementById('messages-container');
+            
+            // Load messages from local storage
+            loadMessages();
+            
+            // Form submission
+            messageForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const name = nameInput.value.trim();
+                const text = textInput.value.trim();
+                
+                if (name && text) {
+                    addMessage(name, text);
+                    nameInput.value = '';
+                    textInput.value = '';
+                }
+            });
+        });
+        
+        function addMessage(name, text) {
+            const messages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
+            const newMessage = {
+                id: Date.now(),
+                name,
+                text,
+                date: new Date().toLocaleString()
+            };
+            
+            messages.unshift(newMessage); // Add new message to beginning
+            localStorage.setItem('birthdayMessages', JSON.stringify(messages));
+            
+            displayMessages([newMessage], true);
+        }
+        
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('birthdayMessages')) || [];
+            displayMessages(messages);
+        }
+        
+        function displayMessages(messages, prepend = false) {
+            const container = document.getElementById('messages-container');
+            
+            if (prepend) {
+                const fragment = document.createDocumentFragment();
+                messages.forEach(message => {
+                    fragment.appendChild(createMessageCard(message));
+                });
+                container.insertBefore(fragment, container.firstChild);
+            } else {
+                container.innerHTML = '';
+                messages.forEach(message => {
+                    container.appendChild(createMessageCard(message));
+                });
+            }
+        }
+        
+        function createMessageCard(message) {
+            const card = document.createElement('div');
+            card.className = 'message-card';
+            card.innerHTML = `
+                <div class="message-author">${message.name}</div>
+                <div class="message-text">${message.text}</div>
+                <div class="message-date">${message.date}</div>
+            `;
+            return card;
+        }
+        
+        // Sweet Modal functionality
         const sweetModal = document.getElementById('sweet-modal');
         const modalMessage = document.getElementById('modal-message');
         const modalClose = document.getElementById('modal-close');
@@ -1746,22 +1952,139 @@ if (now > targetDate) {
             sweetModal.style.display = 'flex';
             
             // Trigger confetti
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
+            createBurstFirework();
         }
         
         modalClose.addEventListener('click', function() {
             sweetModal.style.display = 'none';
         });
-
-         sweetModal.addEventListener('click', function(e) {
+        
+        sweetModal.addEventListener('click', function(e) {
             if (e.target === this) {
-                closeModal
+                sweetModal.style.display = 'none';
             }
         });
+        
+        // Initial sweet message
+        setTimeout(() => {
+            showSweetMessage('Welcome Aurea!', 'This special website was created for US to celebrate your amazing day! Enjoy every moment of it, just like I enjoy every spending moment with you.');
+        }, 1000);
+        
+        // Enhanced Fireworks Function
+        function createBurstFirework() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#ffa5a5', '#84dcc6'];
+            const burstCount = 20 + Math.floor(Math.random() * 30);
+            const centerX = Math.random() * window.innerWidth;
+            const centerY = Math.random() * window.innerHeight / 2;
+            
+            for (let i = 0; i < burstCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('firework');
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 50 + Math.random() * 100;
+                const x = centerX + Math.cos(angle) * distance;
+                const y = centerY + Math.sin(angle) * distance;
+                
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 6 + 2;
+                
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.boxShadow = `0 0 ${size*2}px ${size/2}px ${color}`;
+                
+                document.body.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+        
+        // Floating hearts effect
+        function createFloatingHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.classList.add('floating-heart');
+                
+                // Random position at bottom of screen
+                heart.style.left = `${Math.random() * window.innerWidth}px`;
+                heart.style.bottom = '-50px';
+                
+                // Random size
+                heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+                
+                // Random animation duration
+                heart.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                
+                document.body.appendChild(heart);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    heart.remove();
+                }, 10000);
+            }, 500);
+        }
+        
+        // Confetti effect
+        function createConfetti() {
+            setInterval(() => {
+                for (let i = 0; i < 20; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    
+                    // Random position at top of screen
+                    confetti.style.left = `${Math.random() * window.innerWidth}px`;
+                    confetti.style.top = '-10px';
+                    
+                    // Random color
+                    const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#ffa5a5', '#84dcc6'];
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    // Random size and shape
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = `${Math.random() * 10 + 5}px`;
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    
+                    // Random animation duration
+                    confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }
+            }, 3000);
+        }
+        
+        // Initialize all effects when main content is shown
+        function showMainContent() {
+            document.getElementById('countdown-section').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('main-content').style.opacity = '1';
+                startFireworksAnimation();
+                createFloatingHearts();
+                createConfetti();
+                
+                // Add pulse effect to important elements
+                document.querySelectorAll('.birthday-title, .wish-card, .timeline-title').forEach(el => {
+                    el.classList.add('pulse-element');
+                });
+            }, 100);
+        }
+        
+        // Check if countdown is already over on page load
+        const now = new Date();
+        const targetDate = new Date(now.getFullYear(), 5, 23); // June 23rd
+        if (now > targetDate) {
+            showMainContent();
+        }
     </script>
 </body>
 </html>
